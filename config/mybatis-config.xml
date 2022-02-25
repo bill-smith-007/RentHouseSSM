@@ -8,14 +8,7 @@
 <typeAliases>
 	<package name="com.house.bean"/>
 </typeAliases>
-<plugins>
-        <plugin interceptor="com.github.pagehelper.PageInterceptor">
-             
-        </plugin>
-    </plugins> 
-<mappers>
-	<mapper resource="com/house/mapper/TestMapper.xml"/>
-	<mapper resource="com/house/mapper/UserMapper.xml"/>
-</mappers>
+
+
 
 </configuration>
