@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.house.dao.UserDao">
+<select id="CheckLogin" parameterType="String"  resultType="Integer">
+        SELECT U_id FROM user_rent WHERE
+         U_name=#{U_name} AND
+          U_password=#{U_password};
+    </select>
+ 
+</mapper>
