@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>登录和注册页面切换js特效 www.bootstrapmb.com</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.min.css">
-<link href="${pageContext.request.contextPath}/css/style.css"
+<link href="${pageContext.request.contextPath}/css/style-login.css"
 	   type=text/css rel=stylesheet>
 <script src=
        "${pageContext.request.contextPath}/js/jquery-1.11.3.min.js">

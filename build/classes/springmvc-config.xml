@@ -26,13 +26,7 @@
     <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
    	<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
     -->
-      <!-- 配置拦截器 -->
-	<mvc:interceptors>
-    	<mvc:interceptor>
-        	<mvc:mapping path="/**" />
-        	<bean class="com.house.interceptor.LoginInterceptor"/>
-    	</mvc:interceptor>
-	</mvc:interceptors>	
+     
 	 <!-- 注解驱动：配置处理器映射器和适配器 -->
     <mvc:annotation-driven />
     <!--配置静态资源的访问映射，此配置中的文件，将不被前端控制器拦截 -->
@@ -41,12 +35,12 @@
     <mvc:resources location="/fonts/" mapping="/fonts/**" />
     <mvc:resources location="/images/" mapping="/images/**" />	
     
-    <!-- 配置视图解释器 -->
-    <bean id="jspViewResolver" 
-    	class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-    	<property name="prefix" value="/"/>
-    	<property name="suffix" value=".jsp"/>
-    </bean>
+    <!-- 配置视图解释器ViewResolver -->
+    <bean id="jspViewResolver" class=
+    "org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+    </bean>	
     <!-- 配置文件上传解析器MultiPartResolver -->
     <bean id="multipartResolver" 
     class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

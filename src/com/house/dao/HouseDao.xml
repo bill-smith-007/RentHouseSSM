@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.house.dao.HouseDao">
+ <sql id="selectHouseListWhere">
+        <where>
+	       <if test="R_id != null" >
+	           R_id = #{R_id}
+	       </if>
+	       <if test="R_state != null" >
+	        and R_state = #{R_state}   
+	       </if>
+        </where>
+    </sql>
+	<!-- 查询员工列表  -->
+	<select id="selectHouseList" parameterType="room" 
+                                           resultType="room">
+		SELECT 
+		R_id,
+		R_name,
+		R_class_name,
+		R_state,
+		R_introduce,
+		R_price,
+		R_creatr_id,
+		R_ceate_time 
+		FROM room_class,room_rent WHERE room_class.`R_class_id`=room_rent.`R_class_id`
+		<include refid="selectHouseListWhere"/>
+		<!-- 执行分页查询 -->
+		<if test="start !=null and rows != null">
+			limit #{start},#{rows}
+		</if>
+	</select>
+	
+	<!-- 查询员工总数 -->
+	<select id="selectHouseList" parameterType="room" 
+                                                 resultType="Integer">
+		SELECT COUNT(*) FROM room_class,room_rent WHERE room_class.`R_class_id`=room_rent.`R_class_id`
+		<include refid="selectHouseListWhere"/>
+	</select>	
+</mapper>

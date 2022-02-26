@@ -6,9 +6,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.house.bean.UserBean;
-
 /**
- * 登录拦截�?
+ * 登录拦截器
  */
 public class LoginInterceptor implements HandlerInterceptor {
 	@Override
@@ -17,11 +16,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 			throws Exception {
 		// 获取请求的URL
 		String url = request.getRequestURI();
-		// URL:除了登录请求外，其他的URL都进行拦截控�?
+		// URL:除了登录请求外，其他的URL都进行拦截控制
 		if (url.indexOf("/logincheck.action") >= 0) {
-			return true;
-		}
-		if (url.indexOf("/test.action") >= 0) {
 			return true;
 		}
 		// 获取Session
@@ -31,9 +27,9 @@ public class LoginInterceptor implements HandlerInterceptor {
 		if (user != null) {
 			return true;
 		}
-		// 不符合条件的给出提示信息，并转发到登录页�?
+		// 不符合条件的给出提示信息，并转发到登录页面
 		request.setAttribute("msg", "您还没有登录，请先登录！");
-		request.getRequestDispatcher("/WEB-INF/jsp/login-register.jsp")
+		request.getRequestDispatcher("/WEB-INF/jsp/login.jsp")
 		                                        .forward(request, response);
 		return false;
 	}

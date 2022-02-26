@@ -6,5 +6,8 @@
          U_name=#{U_name} AND
           U_password=#{U_password};
     </select>
- 
+ <select id="getUserById" parameterType="Integer" 
+	resultType="userBean">
+	    SELECT * FROM user_rent WHERE U_id=#{U_id};
+	</select>
 </mapper>

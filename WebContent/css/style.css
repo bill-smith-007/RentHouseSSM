@@ -1,227 +1,81 @@
-:root {
-	/* COLORS */
-	--white: #e9e9e9;
-	--gray: #333;
-	--blue: #0367a6;
-	--lightblue: #008997;
-
-	/* RADII */
-	--button-radius: 0.7rem;
-
-	/* SIZES */
-	--max-width: 758px;
-	--max-height: 420px;
-
-	font-size: 16px;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-		Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+TD {
+	FONT-SIZE: 12px; COLOR: #000000; FONT-FAMILY: '宋体'
 }
-
-body {
-	align-items: center;
-	background-color: var(--white);
-	background: url("../images/1.jpg");
-	background-attachment: fixed;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	display: grid;
-	height: 100vh;
-	place-items: center;
+BODY {
+	FONT-SIZE: 12px; COLOR: #000000; FONT-FAMILY: '宋体'
 }
-
-.form__title {
-	font-weight: 300;
-	margin: 0;
-	margin-bottom: 1.25rem;
+INPUT {
+	FONT-SIZE: 12px; COLOR: #000000; FONT-FAMILY: '宋体'
 }
-
-.link {
-	color: var(--gray);
-	font-size: 0.9rem;
-	margin: 1.5rem 0;
-	text-decoration: none;
+SELECT {
+	FONT-SIZE: 12px; COLOR: #000000; FONT-FAMILY: '宋体'
 }
-
-.container {
-	background-color: var(--white);
-	border-radius: var(--button-radius);
-	box-shadow: 0 0.9rem 1.7rem rgba(0, 0, 0, 0.25),
-		0 0.7rem 0.7rem rgba(0, 0, 0, 0.22);
-	height: var(--max-height);
-	max-width: var(--max-width);
-	overflow: hidden;
-	position: relative;
-	width: 100%;
+.ui_top {
+	FONT-SIZE: 12px; COLOR: #000000; LINE-HEIGHT: 18px
 }
-
-.container__form {
-	height: 100%;
-	position: absolute;
-	top: 0;
-	transition: all 0.6s ease-in-out;
+.ui_top A:link {
+	COLOR: #000000; TEXT-DECORATION: none
 }
-
-.container--signin {
-	left: 0;
-	width: 50%;
-	z-index: 2;
+.ui_top A:visited {
+	COLOR: #000000; TEXT-DECORATION: none
 }
-
-.container.right-panel-active .container--signin {
-	transform: translateX(100%);
+.ui_top A:hover {
+	COLOR: #000000; TEXT-DECORATION: underline
 }
-
-.container--signup {
-	left: 0;
-	opacity: 0;
-	width: 50%;
-	z-index: 1;
+.center01 {
+	COLOR: #035c80; LINE-HEIGHT: 20px; TEXT-DECORATION: none
 }
-
-.container.right-panel-active .container--signup {
-	-webkit-animation: show 0.6s;
-	        animation: show 0.6s;
-	opacity: 1;
-	transform: translateX(100%);
-	z-index: 5;
+A.center01:visited {
+	COLOR: #035c80; LINE-HEIGHT: 20px; TEXT-DECORATION: none
 }
-
-.container__overlay {
-	height: 100%;
-	left: 50%;
-	overflow: hidden;
-	position: absolute;
-	top: 0;
-	transition: transform 0.6s ease-in-out;
-	width: 50%;
-	z-index: 100;
+A.center01:hover {
+	COLOR: #fb6803; TEXT-DECORATION: underline
 }
-
-.container.right-panel-active .container__overlay {
-	transform: translateX(-100%);
+.center02 {
+	COLOR: #424242; LINE-HEIGHT: 18px; TEXT-DECORATION: none
 }
-
-.overlay {
-	background-color: var(--lightblue);
-	background: url("../images/waldemar-brandt-aThdSdgx0YM-unsplash_cnq4sb.jpg");
-	background-attachment: fixed;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	height: 100%;
-	left: -100%;
-	position: relative;
-	transform: translateX(0);
-	transition: transform 0.6s ease-in-out;
-	width: 200%;
+A.center02:visited {
+	COLOR: #424242; LINE-HEIGHT: 18px; TEXT-DECORATION: none
 }
-
-.container.right-panel-active .overlay {
-	transform: translateX(50%);
+A.center02:hover {
+	COLOR: #424242; TEXT-DECORATION: underline
 }
-
-.overlay__panel {
-	align-items: center;
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	justify-content: center;
-	position: absolute;
-	text-align: center;
-	top: 0;
-	transform: translateX(0);
-	transition: transform 0.6s ease-in-out;
-	width: 50%;
+.center03 {
+	COLOR: #ffffff; LINE-HEIGHT: 18px; TEXT-DECORATION: none
 }
-
-.overlay--left {
-	transform: translateX(-20%);
+A.center03:visited {
+	COLOR: #ffffff; LINE-HEIGHT: 18px; TEXT-DECORATION: none
 }
-
-.container.right-panel-active .overlay--left {
-	transform: translateX(0);
+A.center03:hover {
+	COLOR: #fcfc86; TEXT-DECORATION: none
 }
-
-.overlay--right {
-	right: 0;
-	transform: translateX(0);
+A.link1 {
+	COLOR: #ff6600; TEXT-DECORATION: underline
 }
-
-.container.right-panel-active .overlay--right {
-	transform: translateX(20%);
+A.link2 {
+	COLOR: #fb6803
 }
-
-.btn {
-	background-color: var(--blue);
-	background-image: linear-gradient(90deg, var(--blue) 0%, var(--lightblue) 74%);
-	border-radius: 20px;
-	border: 1px solid var(--blue);
-	color: var(--white);
-	cursor: pointer;
-	font-size: 0.8rem;
-	font-weight: bold;
-	letter-spacing: 0.1rem;
-	padding: 0.9rem 4rem;
-	text-transform: uppercase;
-	transition: transform 80ms ease-in;
+.img1 {
+	BORDER-RIGHT: #65bfd4 1px solid; BORDER-TOP: #65bfd4 1px solid; BORDER-LEFT: #65bfd4 1px solid; BORDER-BOTTOM: #65bfd4 1px solid
 }
-
-.form > .btn {
-	margin-top: 1.5rem;
+.img2 {
+	BORDER-RIGHT: #ffffff 1px solid; BORDER-TOP: #ffffff 1px solid; BORDER-LEFT: #ffffff 1px solid; BORDER-BOTTOM: #ffffff 1px solid
 }
-
-.btn:active {
-	transform: scale(0.95);
+.box1 {
+	BORDER-RIGHT: #5dabb4 1px solid; BORDER-TOP: #5dabb4 1px solid; BACKGROUND: #ffffff; BORDER-LEFT: #5dabb4 1px solid; COLOR: #035c80; BORDER-BOTTOM: #5dabb4 1px solid
 }
-
-.btn:focus {
-	outline: none;
+.cla1 {
+	FONT-SIZE: 12px; COLOR: #4b4b4b; TEXT-DECORATION: none
 }
-
-.form {
-	background-color: var(--white);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	padding: 0 3rem;
-	height: 100%;
-	text-align: center;
+.popmenuUser {
+	BORDER-RIGHT: #fed070 1px solid; BORDER-TOP: #fed070 1px solid; PADDING-LEFT: 5px; BORDER-LEFT: #fed070 1px solid; WIDTH: 120px; BORDER-BOTTOM: #fed070 1px solid; POSITION: absolute; BACKGROUND-COLOR: #e9ffd8
 }
-
-.input {
-	background-color: #fff;
-	border: none;
-	padding: 0.9rem 0.9rem;
-	margin: 0.5rem 0;
-	width: 100%;
-}
-
-@-webkit-keyframes show {
-	0%,
-	49.99% {
-		opacity: 0;
-		z-index: 1;
-	}
-
-	50%,
-	100% {
-		opacity: 1;
-		z-index: 5;
-	}
-}
-
-@keyframes show {
-	0%,
-	49.99% {
-		opacity: 0;
-		z-index: 1;
-	}
-
-	50%,
-	100% {
-		opacity: 1;
-		z-index: 5;
-	}
+BODY {
+	SCROLLBAR-FACE-COLOR: #A3DAFF;
+	SCROLLBAR-HIGHLIGHT-COLOR: #D2EDFF;
+	SCROLLBAR-SHADOW-COLOR: #4b9da7; 
+	SCROLLBAR-ARROW-COLOR: #035c80; 
+	SCROLLBAR-BASE-COLOR: #4b9da7; 
+	scrollbar-3d-light-color: #4B9DA7;
+	scrollbar-dark-shadow-color: #4B9DA7
 }

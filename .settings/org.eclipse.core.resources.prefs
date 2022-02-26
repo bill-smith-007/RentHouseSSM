@@ -1,3 +1,6 @@
 eclipse.preferences.version=1
 encoding//WebContent/WEB-INF/jsp/login-register.jsp=UTF-8
+encoding//src/com/house/common/utils/NavigationTag.java=UTF-8
+encoding//src/com/house/common/utils/Page.java=UTF-8
+encoding//src/com/house/controller/HouseController.java=UTF-8
 encoding//src/com/house/interceptor/LoginInterceptor.java=UTF-8

@@ -3,6 +3,7 @@ package com.house.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.house.bean.UserBean;
 import com.house.dao.UserDao;
 import com.house.service.UserService;
 @Service("userService")
@@ -22,6 +23,11 @@ public class UserServiceImpl implements UserService{
 		
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public UserBean GetUserById(int U_id) {
+		UserBean user=userDao.getUserById(U_id);
+		return user;
 	}
 
 }
