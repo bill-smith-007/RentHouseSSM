@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.house.bean.ClassBean;
 import com.house.bean.HouseBean;
 import com.house.common.utils.Page;
 import com.house.dao.HouseDao;
@@ -50,6 +51,28 @@ public class HouseServiceImpl implements HouseService {
 		result.setTotal(count);
 		return result;
 	}
-
-	
+	@Override
+	public List<ClassBean> findHouseClass() {
+		List<ClassBean> list=houseDao.findHouseClass();
+		// TODO Auto-generated method stub
+		return list;
+	}
+	@Override
+	public int createHouse(HouseBean room) {
+		return houseDao.createHouse(room);
+	}
+	@Override
+	public HouseBean getHouseById(Integer id) {
+		return houseDao.getHouseById(id);
+	}
+	@Override
+	public int updateHouse(HouseBean room) {
+		// TODO Auto-generated method stub
+		return houseDao.updateHouse(room);
+	}
+	@Override
+	public int deleteHouse(Integer id) {
+		// TODO Auto-generated method stub
+		return houseDao.deleteHouse(id);
+	}
 }

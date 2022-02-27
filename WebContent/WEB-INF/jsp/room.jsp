@@ -47,7 +47,7 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<form class="form-inline" method="get" 
-				      action="${pageContext.request.contextPath }/room/list.action">
+				      action="${pageContext.request.contextPath }/house/list.action">
 					<div class="form-group">
 						<label for="staffName">房间id</label> 
 						<input type="text" class="form-control" id="staffName" 
@@ -63,11 +63,12 @@
 					</div>
 					
 					<button type="submit" class="btn btn-primary">查询</button>
+					<a  style="display: ${USER_SESSION.u_root==0?"":"none"};"  href="#" class="btn btn-primary" data-toggle="modal" 
+		           data-target="#newsStaffDialog" onclick="clearStaff()">新建</a>
 				</form>
 			</div>
 		</div>
-		<a  style="display: ${USER_SESSION.u_root==1?"":"none"};"  href="#" class="btn btn-primary" data-toggle="modal" 
-		           data-target="#newsStaffDialog" onclick="clearStaff()">新建</a>
+		
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
@@ -77,36 +78,39 @@
 						<thead>
 							<tr>
 								<th>房间id</th>
-								<th>房间类别</th>
-								<th>房间介绍</th>
-								<th>房间单价</th>
+								<th>房间名称</th>
+								<th>房间类型</th>
 								<th>房间状态</th>
+								<th>房间介绍</th>
+								<th>房间价格</th>
+								<th>房间创建者id</th>
 								<th>房间启用时间</th>
-								
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach items="${page.rows}" var="row">
 								<tr>
 									<td>${row.r_id}</td>
-									<td>${row.r_class}</td>
+									<td>${row.r_name}</td>
+									<td>${row.r_class_name}</td>
+									<td>${row.r_state_Str}</td>
 									<td>${row.r_introduce}</td>
 									<td>${row.r_price}</td>
-									<td>${row.stateStr}</td>
-									<td>${row.dataStr}</td>
-								   
+								   	<td>${row.r_create_id}</td>
+									<td>${row.r_ceate_timeStr}</td>
 									<td>
-										<a href="#" class="btn btn-primary btn-xs" style="display: ${USER_SESSION.u_root==1?"":"none"};" data-toggle="modal" data-target="#staffEditDialog" onclick= "editStaff(${row.r_id})">修改</a>
+										<a href="#" class="btn btn-primary btn-xs" style="display: ${USER_SESSION.u_root==0?"":"none"};" data-toggle="modal" data-target="#staffEditDialog" onclick= "editStaff(${row.r_id})">修改</a>
 										<a href="#" class="btn btn-primary btn-xs"  onclick= "newEdit(${row.r_id})">预订</a>
 										
-										<a href="#" class="btn btn-danger btn-xs" style="display: ${USER_SESSION.u_root==1?"":"none"};" onclick="deleteStaff(${row.r_id})">删除</a>
+										<a href="#" class="btn btn-danger btn-xs" style="display: ${USER_SESSION.u_root==0?"":"none"};" onclick="deleteStaff(${row.r_id})">删除</a>
 									</td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
 					<div class="col-md-12 text-right">
-						<itheima:page url="${pageContext.request.contextPath }/room/list.action" />
+						<itheima:page url="${pageContext.request.contextPath }/house/list.action" />
 					</div>
 					<!-- /.panel-body -->
 				</div>
@@ -132,27 +136,32 @@
 				<form class="form-horizontal" id="new_staff_form">
 					<div class="form-group">
 						<label for="new_staffName" class="col-sm-2 control-label">
-						    房间类型
+						    房间号
 						</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="new_class" placeholder="房间类型" name="R_class" />
+							<input type="text" class="form-control" id="new_class" placeholder="房间号" name="R_id" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="new_staffCode" style="float:left;padding:7px 15px 0 27px;">房间介绍</label> 
+						<label for="new_staffCode" style="float:left;padding:7px 15px 0 27px;">房间名称</label> 
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="new_introduce" placeholder="房间介绍" name="R_introduce" />
+							<input type="text" class="form-control" id="new_introduce" placeholder="房间名称" name="R_name" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label style="float:left;padding:7px 15px 0 27px;">房间状态</label>
-						<div class="col-sm-10"> 
-							<label class="radio-inline">
-								  <input type="radio" id="new_state0" name="R_state" value="0" checked> 可用
-							</label>
-							<label class="radio-inline">
-								  <input type="radio" id="new_state1" name="R_state" value="1"> 不可用
-							</label>
+						<label  class="col-sm-2 control-label">房间类型</label>
+						<div class="col-sm-10">
+						<select class="form-control" id="test" name="R_class_id">
+						<c:forEach items="${classes}" var="row">
+							 <option value="${row.r_class_id}">${row.r_class_name}</option>
+						</c:forEach>
+						</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label  style="float:left;padding:7px 15px 0 27px;">房间介绍</label>
+						<div class="col-sm-10">
+							<input type="number" class="form-control" id="new_price" placeholder="房间介绍" name="R_introduce">
 						</div>
 					</div>
 					<div class="form-group">
@@ -162,18 +171,13 @@
 						</div>
 					</div>
 					
-					<div class="form-group">
-						<label  class="col-sm-2 control-label">入职日期</label>
-						<div class="col-sm-10">
-							 <input type="date" class="form-control" id="new_data" name="R_data">
-						</div>
-					</div>
+					
 					
 				</form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-				<button type="button" class="btn btn-primary" onclick="createStaff()">创建房间</button>
+				<button type="button" class="btn btn-primary" onclick="createHouse()">创建房间</button>
 			</div>
 		</div>
 	</div>
@@ -298,7 +302,7 @@
 	    $("#new_state0").prop("checked",true);
 	}
 	// 创建房间
-	function createStaff() {
+	function createHouse() {
 		if($("#new_class").val()==""){
 			alert("类别必须输入!");
 			$("#new_class").focus();
@@ -322,7 +326,7 @@
 		
 		
 		
-	$.post("<%=basePath%>room/create.action",
+	$.post("<%=basePath%>house/create.action",
 					$("#new_staff_form").serialize(),function(data){
 	        if(data =="OK"){
 	            alert("房间创建成功！");
@@ -337,7 +341,7 @@
 	function editStaff(id) {
 	    $.ajax({
 	        type:"get",
-	        url:"<%=basePath%>room/getRoomById.action",
+	        url:"<%=basePath%>house/getRoomById.action",
 	        data:{"id":id},
 	        success:function(data) {
 	            $("#edit_room_id").val(data.r_id);
@@ -384,7 +388,7 @@
 	// 删除房间
 	function deleteStaff(id) {
 	    if(confirm('确实要删除该房间吗?')) {
-	$.post("<%=basePath%>room/delete.action",{"id":id},
+	$.post("<%=basePath%>house/delete.action",{"id":id},
 	function(data){
 	            if(data =="OK"){
 	                alert("房间删除成功！");
