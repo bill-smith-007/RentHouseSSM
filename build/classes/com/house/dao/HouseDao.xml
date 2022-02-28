@@ -71,6 +71,7 @@
 	    SELECT 
 		R_id,
 		R_name,
+		room_class.`R_class_id`,
 		R_class_name,
 		R_state,
 		R_introduce,

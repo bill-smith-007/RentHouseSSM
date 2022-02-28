@@ -3,6 +3,7 @@ package com.house.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.house.bean.HouseBean;
 import com.house.bean.UserBean;
 import com.house.dao.UserDao;
 import com.house.service.UserService;
@@ -28,6 +29,26 @@ public class UserServiceImpl implements UserService{
 	public UserBean GetUserById(int U_id) {
 		UserBean user=userDao.getUserById(U_id);
 		return user;
+	}
+	@Override
+	public int createHouse(HouseBean room) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public HouseBean getHouseById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public int updateHouse(HouseBean room) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public int deleteHouse(Integer id) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

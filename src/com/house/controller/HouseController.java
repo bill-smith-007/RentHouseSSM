@@ -92,11 +92,21 @@ public class HouseController {
 	 */
 	@RequestMapping("/house/update.action")
 	@ResponseBody
-	public String roomUpdate(Integer R_id, String R_class,String R_introduce,Integer R_state,Integer R_price,String R_data) {
-		HouseBean room=new HouseBean();
-		
-		room.setR_id(R_id);
-	    int rows = houseService.updateHouse(room);
+	public String roomUpdate(Integer R_id,String R_name,Integer R_class_id,Integer R_state,String R_introduce,Double R_price) {
+		Integer a;
+		a=11;
+		int aa=11;
+		System.out.println(aa==a);
+		System.out.println(a.equals(aa));
+		HouseBean house=new HouseBean();
+		house.setR_id(R_id);
+		house.setR_name(R_name);
+		house.setR_state(R_state);
+		house.setR_class_id(R_class_id);
+		house.setR_introduce(R_introduce);
+		house.setR_price(R_price);
+		house.setR_ceate_time(Help.gDate());
+	    int rows = houseService.updateHouse(house);
 	    if(rows > 0){
 	        return "OK";
 	    }else{
