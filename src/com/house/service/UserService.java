@@ -1,15 +1,21 @@
 package com.house.service;
 
-import com.house.bean.HouseBean;
+
 import com.house.bean.UserBean;
+import com.house.common.utils.Page;
 
 public interface UserService {
-	 Integer CheckLogin(String U_name,String U_passworld);
-	 public UserBean GetUserById(int U_id);
-	 public int createHouse(HouseBean room);// 创建房间
-	 public HouseBean getHouseById(Integer id);
-		
-	 public int updateHouse(HouseBean room);// 更新房间信息
+	public Page<UserBean> findUserList(Integer page, Integer rows, 
+            Integer U_id,String U_name);
+	Integer CheckLogin(String U_name, String U_passworld);
 
-	 int deleteHouse (Integer id);	// 删除房间
+	public UserBean GetUserById(Integer U_id);
+
+	public int createUser(UserBean user);
+
+
+
+	public int updateUser(UserBean user);
+
+	int deleteUser(Integer id); 
 }

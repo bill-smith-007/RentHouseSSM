@@ -47,21 +47,18 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<form class="form-inline" method="get" 
-				      action="${pageContext.request.contextPath }/house/list.action">
+				      action="${pageContext.request.contextPath }/user/list.action">
 					<div class="form-group">
 						<label for="staffName">房间id</label> 
 						<input type="text" class="form-control" id="staffName" 
-						                   value="${R_id }" name="R_id" />
-					</div>
-					<div class="form-group">
-						<label for="customerFrom">房间状态</label> 
-						<select	class="form-control" id="R_state" name="R_state">
-							<option value="" >--请选择--</option>
-								<option value="0" ${R_state==0?"selected":""}>未出租</option>
-								<option value="1" ${R_state==""?"":R_state==1?"selected":""}>出租</option>
-						</select>
+						                   value="${U_id }" name="U_id" />
 					</div>
 					
+					<div class="form-group">
+						<label for="staffName">用户名</label> 
+						<input type="text" class="form-control" id="staffName" 
+						                   value="${U_name }" name="U_name" />
+					</div>
 					<button type="submit" class="btn btn-primary">查询</button>
 					<a  style="display: ${USER_SESSION.u_root==0?"":"none"};"  href="#" class="btn btn-primary" data-toggle="modal" 
 		           data-target="#newsStaffDialog" onclick="clearStaff()">新建</a>
@@ -77,40 +74,33 @@
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr>
-								<th>房间id</th>
-								<th>房间名称</th>
-								<th>房间类型</th>
-								<th>房间状态</th>
-								<th>房间介绍</th>
-								<th>房间价格</th>
-								<th>房间创建者id</th>
-								<th>房间启用时间</th>
+								<th>用户id</th>
+								<th>用户名称</th>
+								<th>用户权限</th>
+								<th>用户介绍</th>
 								<th></th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach items="${page.rows}" var="row">
 								<tr>
-									<td>${row.r_id}</td>
-									<td>${row.r_name}</td>
-									<td>${row.r_class_name}</td>
-									<td>${row.r_state_Str}</td>
-									<td>${row.r_introduce}</td>
-									<td>${row.r_price}</td>
-								   	<td>${row.r_create_id}</td>
-									<td>${row.r_ceate_timeStr}</td>
+									<td>${row.u_id}</td>
+									<td>${row.u_name}</td>
+									<td>${row.u_rootStr}</td>
+									<td>${row.u_introduce}</td>
+								
 									<td>
-										<a href="#" class="btn btn-primary btn-xs" style="display: ${USER_SESSION.u_root==0?"":"none"};" data-toggle="modal" data-target="#staffEditDialog" onclick= "editStaff(${row.r_id})">修改</a>
-										<a href="#" class="btn btn-primary btn-xs"  onclick= "newEdit(${row.r_id})">预订</a>
+										<a href="#" class="btn btn-primary btn-xs" style="display: ${USER_SESSION.u_root==0?"":"none"};" data-toggle="modal" data-target="#staffEditDialog" onclick= "editStaff(${row.u_id})">修改</a>
+										<a href="#" class="btn btn-primary btn-xs"  onclick= "newEdit(${row.u_id})">预订</a>
 										
-										<a href="#" class="btn btn-danger btn-xs" style="display: ${USER_SESSION.u_root==0?"":"none"};" onclick="deleteStaff(${row.r_id})">删除</a>
+										<a href="#" class="btn btn-danger btn-xs" style="display: ${USER_SESSION.u_root==0?"":"none"};" onclick="deleteStaff(${row.u_id})">删除</a>
 									</td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
 					<div class="col-md-12 text-right">
-						<itheima:page url="${pageContext.request.contextPath }/house/list.action" />
+						<itheima:page url="${pageContext.request.contextPath }/user/list.action" />
 					</div>
 					<!-- /.panel-body -->
 				</div>
@@ -134,40 +124,34 @@
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal" id="new_staff_form">
+					
 					<div class="form-group">
-						<label for="new_staffName" class="col-sm-2 control-label">
-						    房间号
-						</label>
+						<label for="new_staffCode" style="float:left;padding:7px 15px 0 27px;">用户名称</label> 
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="new_class" placeholder="房间号" name="R_id" />
+							<input type="text" class="form-control" id="U_name" placeholder="用户名称" name="U_name" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="new_staffCode" style="float:left;padding:7px 15px 0 27px;">房间名称</label> 
+						<label for="new_staffCode" style="float:left;padding:7px 15px 0 27px;">用户密码</label> 
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="new_introduce" placeholder="房间名称" name="R_name" />
+							<input type="text" class="form-control" id="U_password" placeholder="用户密码" name="U_password" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label  class="col-sm-2 control-label">房间类型</label>
-						<div class="col-sm-10">
-						<select class="form-control" id="test" name="R_class_id">
-						<c:forEach items="${classes}" var="row">
-							 <option value="${row.r_class_id}">${row.r_class_name}</option>
-						</c:forEach>
-						</select>
+						<label style="float:left;padding:7px 15px 0 27px;">用户权限</label>
+						<div class="col-sm-10"> 
+							<label class="radio-inline">
+								  <input type="radio" id="U_root0" name="U_root" value="0" checked> 超级管理
+							</label>
+							<label class="radio-inline">
+								  <input type="radio" id="U_root1" name="U_root" value="1"> 一般用户
+							</label>
 						</div>
 					</div>
 					<div class="form-group">
-						<label  style="float:left;padding:7px 15px 0 27px;">房间介绍</label>
+						<label  style="float:left;padding:7px 15px 0 27px;">用户介绍</label>
 						<div class="col-sm-10">
-							<input type="number" class="form-control" id="new_price" placeholder="房间介绍" name="R_introduce">
-						</div>
-					</div>
-					<div class="form-group">
-						<label  style="float:left;padding:7px 15px 0 27px;">房间价格</label>
-						<div class="col-sm-10">
-							<input type="number" class="form-control" id="new_price" placeholder="房间价格" name="R_price">
+							<input type="text" class="form-control" id="U_introduce" placeholder="用户介绍" name="U_introduce">
 						</div>
 					</div>
 					
@@ -177,7 +161,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-				<button type="button" class="btn btn-primary" onclick="createHouse()">创建房间</button>
+				<button type="button" class="btn btn-primary" onclick="createUser()">创建房间</button>
 			</div>
 		</div>
 	</div>
@@ -206,7 +190,7 @@
 							 <input type="date" class="form-control" id="new_Bdata" name="B_data">
 						</div>
 					</div>
-					<input type="hidden" id="new_book_id" name="R_id"/>
+					<input type="hidden" id="new_book_id" name="U_id"/>
 					<input type="hidden" id="new_book_price" name="R_price"/>
 					
 				</form>
@@ -233,52 +217,37 @@
 				<form class="form-horizontal" id="edit_staff_form">
 				
 				<div class="form-group">
-						<label for="new_staffName" class="col-sm-2 control-label">
-						   房间名称
-						</label>
+						<label for="new_staffCode" style="float:left;padding:7px 15px 0 27px;">用户名称</label> 
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="edit_name" placeholder="房间类型" name="R_class" />
+							<input type="text" class="form-control" id="edit_U_name" placeholder="用户名称" name="U_name" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="new_staffClass" class="col-sm-2 control-label">
-						    房间类型
-						</label>
+						<label for="new_staffCode" style="float:left;padding:7px 15px 0 27px;">用户密码</label> 
 						<div class="col-sm-10">
-						<select class="form-control"  name="R_class_id">
-						<c:forEach items="${classes}" var="row">
-							 <option id="edit_class${row.r_class_id}" value="${row.r_class_id}">${row.r_class_name}</option>
-						</c:forEach>
-						</select>
-							
+							<input type="text" class="form-control" id="edit_U_password" placeholder="用户密码" name="U_password" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="new_staffCode" style="float:left;padding:7px 15px 0 27px;">房间介绍</label> 
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="edit_introduce" placeholder="房间介绍" name="R_introduce" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label style="float:left;padding:7px 15px 0 27px;">房间状态</label>
+						<label style="float:left;padding:7px 15px 0 27px;">用户权限</label>
 						<div class="col-sm-10"> 
 							<label class="radio-inline">
-								  <input type="radio" id="edit_state0" name="R_state" value="0" checked> 可用
+								  <input type="radio" id="edit_U_root0" name="U_root" value="0" > 超级管理
 							</label>
 							<label class="radio-inline">
-								  <input type="radio" id="edit_state1" name="R_state" value="1"> 不可用
+								  <input type="radio" id="edit_U_root1" name="U_root" value="1" checked> 一般用户
 							</label>
 						</div>
 					</div>
 					<div class="form-group">
-						<label  style="float:left;padding:7px 15px 0 27px;">房间价格</label>
+						<label  style="float:left;padding:7px 15px 0 27px;">用户介绍</label>
 						<div class="col-sm-10">
-							<input type="number" class="form-control" id="edit_price" placeholder="房间价格" name="R_price">
+							<input type="text" class="form-control" id="edit_U_introduce" placeholder="用户介绍" name="U_introduce">
 						</div>
 					</div>
 					
 					
-					<input type="hidden" id="edit_room_id" name="R_id"/>
+					<input type="hidden" id="edit_U_id" name="U_id"/>
 				</form>
 			</div>
 			<div class="modal-footer">
@@ -311,7 +280,7 @@
 	    $("#new_state0").prop("checked",true);
 	}
 	// 创建房间
-	function createHouse() {
+	function createUser() {
 		if($("#new_class").val()==""){
 			alert("类别必须输入!");
 			$("#new_class").focus();
@@ -335,7 +304,7 @@
 		
 		
 		
-	$.post("<%=basePath%>house/create.action",
+	$.post("<%=basePath%>user/create.action",
 					$("#new_staff_form").serialize(),function(data){
 	        if(data =="OK"){
 	            alert("房间创建成功！");
@@ -350,15 +319,16 @@
 	function editStaff(id) {
 	    $.ajax({
 	        type:"get",
-	        url:"<%=basePath%>house/getRoomById.action",
+	        url:"<%=basePath%>user/getUserById.action",
 	        data:{"id":id},
 	        success:function(data) {
-	            $("#edit_name").val(data.r_name);
-	            $("#edit_room_id").val(data.r_id);
-	            $("#edit_class"+data.r_class_id).prop("selected",true);
-	            $("#edit_introduce").val(data.r_introduce)
-	            $("#edit_price").val(data.r_price)
-	            $("#edit_state"+data.r_state).prop("checked",true);
+	        	
+	            $("#edit_U_name").val(data.u_name);
+	            $("#edit_U_password").val(data.u_password);
+	            $("#edit_U_root"+data.u_root).prop("checked",true);
+	            $("#edit_U_introduce").val(data.u_introduce);
+	            $("#edit_U_id").val(data.u_id);
+	            
 	        }
 	    });
 	}
@@ -384,7 +354,7 @@
 			$("#edit_price").focus();
 			return;
 		}
-		$.post("<%=basePath%>house/update.action",$("#edit_staff_form").serialize(),function(data){
+		$.post("<%=basePath%>user/update.action",$("#edit_staff_form").serialize(),function(data){
 			if(data =="OK"){
 				alert("房间信息更新成功！");
 				window.location.reload();
@@ -397,7 +367,7 @@
 	// 删除房间
 	function deleteStaff(id) {
 	    if(confirm('确实要删除该房间吗?')) {
-	$.post("<%=basePath%>house/delete.action",{"id":id},
+	$.post("<%=basePath%>user/delete.action",{"id":id},
 	function(data){
 	            if(data =="OK"){
 	                alert("房间删除成功！");
@@ -417,7 +387,7 @@
 	        success:function(data) {
 	            if(data.r_state==0)
 	            	{	
-	            	 $("#new_book_id").val(data.r_id);
+	            	 $("#new_book_id").val(data.u_id);
 	            	 $("#new_book_price").val(data.r_price);
 	            	 
 	            		$('#roomNewDialog').modal('show')

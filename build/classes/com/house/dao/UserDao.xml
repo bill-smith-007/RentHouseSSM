@@ -6,8 +6,82 @@
          U_name=#{U_name} AND
           U_password=#{U_password};
     </select>
+    <sql id="selectUserListWhere">
+        <where>
+	      <if test="U_id != null" >
+	           U_id = #{U_id}
+	       </if>
+	       <if test="U_name != null" >
+	        and U_name LIKE "%"#{U_name}"%"  
+	       </if>
+	      
+        </where>
+    </sql>
  <select id="getUserById" parameterType="Integer" 
 	resultType="userBean">
 	    SELECT * FROM user_rent WHERE U_id=#{U_id};
 	</select>
+	<select id="selectUserList" parameterType="userBean" 
+                                           resultType="userBean">
+		SELECT 
+		U_id,
+		U_name,
+		U_root,
+		U_introduce
+		FROM user_rent 
+		<include refid="selectUserListWhere"/>
+		<!-- 执行分页查询 -->
+		<if test="start !=null and rows != null">
+			limit #{start},#{rows}
+		</if>
+	</select>
+	<select id="selectUserListCount" parameterType="userBean" 
+                                                 resultType="Integer">
+		SELECT COUNT(*) FROM user_rent
+		<include refid="selectUserListWhere"/>
+	</select>
+	<insert id="createUser" parameterType="userBean">
+	   INSERT INTO 
+	   user_rent
+	   (U_name,
+	   U_root,
+	   U_introduce,
+	   U_password
+	   ) VALUE (
+	   #{U_name},
+	   #{U_root},
+	   #{U_introduce},
+	   #{U_password})
+	</insert>
+<!-- 	<select id="getUserById" parameterType="Integer"  -->
+<!-- 	resultType="userBean"> -->
+<!-- 	    SELECT  -->
+<!-- 		U_id, -->
+<!-- 		U_name, -->
+<!-- 		U_root, -->
+<!-- 		U_introduce, -->
+<!-- 		U_password -->
+<!-- 		FROM user_rent where U_id = #{U_id}; -->
+<!-- 	</select> -->
+	<update id="updateUser" parameterType="userBean">
+	    update user_rent
+	    <set>
+	        <if test="U_name!=null">
+	            U_name=#{U_name},
+	        </if>
+	        <if test="U_root!=null">
+	            U_root=#{U_root},
+	        </if>
+	        <if test="U_introduce!=null">
+	            U_introduce=#{U_introduce},
+	        </if>
+	        <if test="U_password!=null">
+	            U_password=#{U_password},
+	        </if>
+	    </set>
+	    where U_id=#{U_id}
+	</update>
+	<delete id="deleteUser" parameterType="Integer">
+	    delete from user_rent where U_id=#{U_id}
+	</delete>
 </mapper>
