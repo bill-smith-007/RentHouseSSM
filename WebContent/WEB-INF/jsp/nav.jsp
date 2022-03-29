@@ -178,20 +178,22 @@
 				</li>
 				
 				<li> 
-				    <a href="${pageContext.request.contextPath }/room/list.action" class="active" >
+				    <a href="${pageContext.request.contextPath }/house/list.action" class="active" >
 				      <i class="fa fa-dashboard fa-fw" ></i> 房间管理
 				    </a>
 				</li>
+				
 				<li>
-				    <a href="${pageContext.request.contextPath }/book/list.action" class="active">
-				      <i class="fa fa-edit fa-fw"></i> 订单管理
+				    <a href="${pageContext.request.contextPath }/order/list.action" class="active">
+				      <i class="fa fa-pencil fa-fw"></i> 账单管理
 				    </a>
 				</li>
 				<li>
 				    <a href="${pageContext.request.contextPath }/money/list.action" class="active">
-				      <i class="fa fa-edit fa-fw"></i> 账单管理
+				      <i class="fa fa-list fa-fw"></i> 账单管理
 				    </a>
 				</li>
+				
 			</ul>
 		</div>
 	</div>

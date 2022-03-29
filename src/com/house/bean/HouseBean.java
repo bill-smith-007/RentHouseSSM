@@ -15,7 +15,7 @@ public class HouseBean {
 	private String R_class_name;// 房间的类型（类似三室一厅）
 	private Integer R_class_id;
 	private String R_introduce;// 房间的介绍之类
-	private double R_price;// 房间的价格
+	private Double R_price;// 房间的价格
 	private Integer R_create_id;// 房间创造者的id
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -124,12 +124,13 @@ public class HouseBean {
 		R_introduce = r_introduce;
 	}
 
-	public double getR_price() {
+	public Double getR_price() {
 		return R_price;
 	}
 
-	public void setR_price(double r_price) {
+	public void setR_price(Double r_price) {
 		R_price = r_price;
 	}
 
+	
 }

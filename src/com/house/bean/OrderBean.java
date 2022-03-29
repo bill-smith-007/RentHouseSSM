@@ -9,9 +9,12 @@ public class OrderBean {
 	private Integer M_id;
 	private Date M_time_order;
 	private Date M_time_pay;
+	private Integer M_time;
 
 	private Integer M_state;// 用户的权限划分
 	private String M_people;// 用户的个人介绍
+
+	private Double M_money;
 
 	private Integer start; // 起始行
 	private Integer rows; // 所取行数
@@ -49,12 +52,25 @@ public class OrderBean {
 	}
 
 	public String getM_time_orderStr() {
-
-		return new SimpleDateFormat("yyyy-MM-dd").format(M_time_order);
+		if (M_time_order==null) {
+			return null;
+		}
+		else {
+			return new SimpleDateFormat("yyyy-MM-dd").format(M_time_order);
+		}
+		
 	}
 
 	public Date getM_time_pay() {
 		return M_time_pay;
+	}
+
+	public Integer getM_time() {
+		return M_time;
+	}
+
+	public void setM_time(Integer m_time) {
+		M_time = m_time;
 	}
 
 	public void setM_time_pay(Date m_time_pay) {
@@ -62,13 +78,19 @@ public class OrderBean {
 	}
 
 	public String getM_time_payStr() {
+		try {
+			return new SimpleDateFormat("yyyy-MM-dd").format(M_time_pay);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
 
-		return new SimpleDateFormat("yyyy-MM-dd").format(M_time_pay);
 	}
 
 	public Integer getM_state() {
 		return M_state;
 	}
+
 	public String getM_stateStr() {
 		String getForState;
 		switch (M_state) {
@@ -81,8 +103,8 @@ public class OrderBean {
 		}
 		return getForState;
 
-		
 	}
+
 	public void setM_state(Integer m_state) {
 		M_state = m_state;
 	}
@@ -109,6 +131,14 @@ public class OrderBean {
 
 	public void setRows(Integer rows) {
 		this.rows = rows;
+	}
+
+	public Double getM_money() {
+		return M_money;
+	}
+
+	public void setM_money(Double m_money) {
+		M_money = m_money;
 	}
 
 }

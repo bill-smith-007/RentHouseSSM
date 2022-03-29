@@ -8,71 +8,62 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.house.bean.ClassBean;
-import com.house.bean.HouseBean;
+import com.house.bean.OrderBean;
 import com.house.common.utils.Page;
-import com.house.dao.HouseDao;
-import com.house.service.HouseService;
+import com.house.dao.OrderDao;
+import com.house.service.OrderService;
 
 
 
-@Service("houseService")
+@Service("orderService")
 @Transactional
-public class OrderServiceImpl implements HouseService {
+public class OrderServiceImpl implements OrderService {
 	@Autowired
-	private HouseDao houseDao;
+	private OrderDao orderDao;
 	@Override
-	public Page<HouseBean> findHouseList(Integer page, Integer rows, Integer R_id, Integer R_state) {
+	public Page<OrderBean> findOrderList(Integer page, Integer rows, Integer R_id, Integer R_state) {
 		
 		// 创建员工对象
-		HouseBean house=new HouseBean();
+		OrderBean order=new OrderBean();
         
 		// 判断员工名称
 		if(StringUtils.isNotBlank(R_id+"")){
-			house.setR_id(R_id);
-		}
-		// 判断员工工号
-		if(StringUtils.isNotBlank(R_state+"")){
-			house.setR_state(R_state);
+			order.setR_id(R_id);
 		}
 		
 		// 当前页
-		house.setStart((page-1) * rows) ;
+		order.setStart((page-1) * rows) ;
 		// 每页数
-		house.setRows(rows);
+		order.setRows(rows);
 		// 查询员工列表
-		List<HouseBean> houses = houseDao.selectHouseList(house);
+		List<OrderBean> orders = orderDao.selectOrderList(order);
 		// 查询员工列表总记录数
-		Integer count = houseDao.selectHouseListCount(house) ;
+		Integer count = orderDao.selectOrderListCount(order) ;
 		// 创建Page返回对象
-		Page<HouseBean> result = new Page<>();
+		Page<OrderBean> result = new Page<>();
 		result.setPage(page);
-		result.setRows(houses);
+		result.setRows(orders);
 		result.setSize(rows);
 		result.setTotal(count);
 		return result;
 	}
+	
 	@Override
-	public List<ClassBean> findHouseClass() {
-		List<ClassBean> list=houseDao.findHouseClass();
+	public int createOrder(OrderBean Order) {
+		return orderDao.createOrder(Order);
+	}
+	@Override
+	public OrderBean getOrderById(Integer id) {
+		return orderDao.getOrderById(id);
+	}
+	@Override
+	public int updateOrder(OrderBean Order) {
 		// TODO Auto-generated method stub
-		return list;
+		return orderDao.updateOrder(Order);
 	}
 	@Override
-	public int createHouse(HouseBean room) {
-		return houseDao.createHouse(room);
-	}
-	@Override
-	public HouseBean getHouseById(Integer id) {
-		return houseDao.getHouseById(id);
-	}
-	@Override
-	public int updateHouse(HouseBean room) {
+	public int deleteOrder(Integer id) {
 		// TODO Auto-generated method stub
-		return houseDao.updateHouse(room);
-	}
-	@Override
-	public int deleteHouse(Integer id) {
-		// TODO Auto-generated method stub
-		return houseDao.deleteHouse(id);
+		return orderDao.deleteOrder(id);
 	}
 }

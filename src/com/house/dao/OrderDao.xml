@@ -1,114 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.house.dao.HouseDao">
- <sql id="selectHouseListWhere">
-        
-	       <if test="R_id != null" >
-	        and   R_id = #{R_id}
-	       </if>
-	       <if test="R_state != null" >
-	        and R_state = #{R_state}   
-	       </if>
-        
-    </sql>
-	<!-- 查询员工列表  -->
-	<select id="selectHouseList" parameterType="houseBean" 
-                                           resultType="houseBean">
-		SELECT 
+<mapper namespace="com.house.dao.OrderDao">
+	<sql id="selectOrderListWhere">
+
+		<if test="M_id != null">
+			and M_id = #{M_id}
+		</if>
+		<if test="M_state != null">
+			and M_state = #{M_state}
+		</if>
+
+	</sql>
+	<!-- 查询订单列表 -->
+	<select id="selectOrderList" parameterType="orderBean"
+		resultType="orderBean">
+		SELECT
+		U_id,
 		R_id,
-		R_name,
-		R_class_name,
-		R_state,
-		R_introduce,
-		R_price,
-		R_create_id,
-		R_ceate_time 
-		FROM room_class,room_rent WHERE room_class.`R_class_id`=room_rent.`R_class_id`
-		<include refid="selectHouseListWhere"/>
+		M_id,
+		M_time_order,
+		M_time_pay,
+		M_state,
+		M_people,
+		M_time,
+		M_money
+		FROM
+		money_rent
+		<include refid="selectOrderListWhere" />
 		<!-- 执行分页查询 -->
 		<if test="start !=null and rows != null">
 			limit #{start},#{rows}
 		</if>
 	</select>
-	
-	<select id="findHouseClass" parameterType="classBean" 
-                                           resultType="classBean">
-		SELECT
-		R_class_id,
-		R_class_name 
-		FROM room_class;
+
+
+
+	<!-- 查询总数 -->
+	<select id="selectOrderListCount" parameterType="orderBean"
+		resultType="Integer">
+		SELECT COUNT(*) FROM money_rent
+		<include refid="selectOrderListWhere" />
 	</select>
-	
-	<!-- 查询员工总数 -->
-	<select id="selectHouseListCount" parameterType="houseBean" 
-                                                 resultType="Integer">
-		SELECT COUNT(*) FROM room_class,room_rent WHERE room_class.`R_class_id`=room_rent.`R_class_id`
-		<include refid="selectHouseListWhere"/>
-	</select>	
-	<insert id="createHouse" parameterType="houseBean">
-	   INSERT INTO room_rent (
-	   	R_id,
-		R_name,
-		R_state,
-		R_class_id,
-		R_introduce,
-		R_price,
-		R_create_id,
-		R_ceate_time
-		) VALUE (
-		#{R_id},
-		#{R_name},
-		#{R_state},
-		#{R_class_id},
-		#{R_introduce},
-		#{R_price},
-		#{R_create_id},
-		#{R_ceate_time}           
-)
-	</insert>
-	<select id="getHouseById" parameterType="Integer" 
-	resultType="houseBean">
-	    SELECT 
+	<insert id="createOrder" parameterType="orderBean">
+		INSERT INTO
+		money_rent
+		(
+		U_id,
 		R_id,
-		R_name,
-		room_class.`R_class_id`,
-		R_class_name,
-		R_state,
-		R_introduce,
-		R_price,
-		R_create_id,
-		R_ceate_time 
-		FROM room_class,room_rent WHERE room_class.`R_class_id`=room_rent.`R_class_id` and R_id = #{R_id}
+		M_id,
+		M_time_order,
+		M_time_pay,
+		M_people,
+		M_time,
+		M_money
+		) VALUES (
+		#{U_id},
+		#{R_id},
+		#{M_id},
+		#{M_time_order},
+		#{M_time_pay},
+		#{M_people},
+		#{M_time},
+		#{M_money}
+		)
+	</insert>
+	<select id="getOrderById" parameterType="Integer"
+		resultType="orderBean">
+		SELECT
+		U_id,
+		R_id,
+		M_id,
+		M_time_order,
+		M_time_pay,
+		M_state,
+		M_people,
+		M_time,
+		M_money
+		FROM
+		money_rent where M_id = #{M_id}
 	</select>
-	<update id="updateHouse" parameterType="houseBean">
-	    update room_rent
-	    <set>
-	        <if test="R_name!=null">
-	            R_name=#{R_name},
-	        </if>
-	        <if test="R_introduce!=null">
-	            R_introduce=#{R_introduce},
-	        </if>
-	        <if test="R_price!=null">
-	            R_price=#{R_price},
-	        </if>
-	        <if test="R_state!=null">
-	            R_state=#{R_state},
-	        </if>
-	        <if test="R_class_id!=null">
-	            R_class_id=#{R_class_id},
-	        </if>
-	        <if test="R_create_id!=null">
-	            R_create_id=#{R_create_id},
-	        </if>
-	        <if test="R_ceate_time!=null">
-	            R_ceate_time=#{R_ceate_time},
-	        </if>
-	        
-	    </set>
-	    where R_id=#{R_id}
+	<update id="updateOrder" parameterType="orderBean">
+		update money_rent
+		<set>
+			
+			
+			<if test="M_time !=null">
+				M_time =#{M_time},
+			</if>
+
+		</set>
+		where M_id=#{M_id}
 	</update>
-	<delete id="deleteHouse" parameterType="Integer">
-	    delete from room_rent where R_id=#{R_id}
+	<delete id="deleteOrder" parameterType="Integer">
+		delete from money_rent
+		where M_id=#{M_id}
 	</delete>
 </mapper>

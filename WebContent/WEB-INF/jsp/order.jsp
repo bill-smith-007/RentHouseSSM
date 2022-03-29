@@ -11,7 +11,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>房间管理-BootCRM</title>
+	<title>订单管理-BootCRM</title>
 	<!-- 引入css样式文件 -->
 	<!-- Bootstrap Core CSS -->
 	<link href="<%=basePath%>css/bootstrap.min.css" rel="stylesheet" />
@@ -35,11 +35,11 @@
 	</div>
 	<%@ include file="nav.jsp" %>
   </nav>
-    <!-- 房间列表查询部分  start-->
+    <!-- 订单列表查询部分  start-->
 	<div id="page-wrapper">
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">房间管理</h1>
+				<h1 class="page-header">订单管理</h1>
 			</div>
 			<!-- /.col-lg-12 -->
 		</div>
@@ -49,16 +49,16 @@
 				<form class="form-inline" method="get" 
 				      action="${pageContext.request.contextPath }/house/list.action">
 					<div class="form-group">
-						<label for="staffName">房间id</label> 
+						<label for="staffName">订单id</label> 
 						<input type="text" class="form-control" id="staffName" 
-						                   value="${R_id }" name="R_id" />
+						                   value="${M_id }" name="M_id" />
 					</div>
 					<div class="form-group">
-						<label for="customerFrom">房间状态</label> 
-						<select	class="form-control" id="R_state" name="R_state">
+						<label for="customerFrom">订单状态</label> 
+						<select	class="form-control" id="M_state" name="M_state">
 							<option value="" >--请选择--</option>
-								<option value="0" ${R_state==0?"selected":""}>未出租</option>
-								<option value="1" ${R_state==""?"":R_state==1?"selected":""}>出租</option>
+								<option value="0" ${M_state==0?"selected":""}>未出租</option>
+								<option value="1" ${M_state==""?"":M_state==1?"selected":""}>出租</option>
 						</select>
 					</div>
 					
@@ -72,37 +72,42 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">房间信息列表</div>
+					<div class="panel-heading">订单信息列表</div>
 					<!-- /.panel-heading -->
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr>
-								<th>房间id</th>
-								<th>房间名称</th>
-								<th>房间类型</th>
-								<th>房间状态</th>
-								<th>房间介绍</th>
-								<th>房间价格</th>
-								<th>房间创建者id</th>
-								<th>房间启用时间</th>
+								<th>订单号</th>
+								<th>下单人</th>
+								
+								<th>订单id</th>
+								<th>下单日期</th>
+								<th>支付日期</th>
+								<th>支付状态</th>
+								
+								<th>预定时长(月)</th>
+								<th>总价</th>
 								<th></th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach items="${page.rows}" var="row">
-								<tr  align="center">
+								<tr   align="center">
+									<td>${row.m_id}</td>
+									<td>${row.m_people}</td>
 									<td>${row.r_id}</td>
-									<td>${row.r_name}</td>
-									<td>${row.r_class_name}</td>
-									<td>${row.r_state_Str}</td>
-									<td>${row.r_introduce}</td>
-									<td>${row.r_price}</td>
-								   	<td>${row.r_create_id}</td>
-									<td>${row.r_ceate_timeStr}</td>
+									
+									<td>${row.m_time_orderStr}</td>
+									<td>${row.m_time_payStr}</td>
+									<td>${row.m_stateStr}</td>
+								   
+									<td>${row.m_time}</td>
+									<td>${row.m_money}</td>
 									<td>
-										<a href="#" class="btn btn-primary btn-xs" style="display: ${USER_SESSION.u_root==0?"":"none"};" data-toggle="modal" data-target="#staffEditDialog" onclick= "editStaff(${row.r_id})">修改</a>
-										<a href="#" class="btn btn-primary btn-xs"  onclick= "newEdit(${row.r_id})">预订</a>	
-										<a href="#" class="btn btn-danger btn-xs" style="display: ${USER_SESSION.u_root==0?"":"none"};" onclick="deleteStaff(${row.r_id})">删除</a>
+										<a href="#" class="btn btn-primary btn-xs" style="display: ${USER_SESSION.u_root==0?"":"none"};" data-toggle="modal" data-target="#staffEditDialog" onclick= "editStaff(${row.m_id})">修改</a>
+										<a href="#" class="btn btn-primary btn-xs"  onclick= "newEdit(${row.r_id})">预订</a>
+										
+										<a href="#" class="btn btn-danger btn-xs" style="display: ${USER_SESSION.u_root==0?"":"none"};" onclick="deleteStaff(${row.m_id},${row.r_id})">删除</a>
 									</td>
 								</tr>
 							</c:forEach>
@@ -118,9 +123,9 @@
 			<!-- /.col-lg-12 -->
 		</div>
 	</div>
-	<!-- 房间列表查询部分  end-->
+	<!-- 订单列表查询部分  end-->
 </div>
-<!-- 创建房间模态框 -->
+<!-- 创建订单模态框 -->
 <div class="modal fade" id="newsStaffDialog" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
@@ -129,26 +134,26 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title" id="myModalLabel">新建房间信息</h4>
+				<h4 class="modal-title" id="myModalLabel">新建订单信息</h4>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal" id="new_staff_form">
 					<div class="form-group">
 						<label for="new_staffName" class="col-sm-2 control-label">
-						    房间号
+						    订单号
 						</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="new_class" placeholder="房间号" name="R_id" />
+							<input type="text" class="form-control" id="new_class" placeholder="订单号" name="R_id" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="new_staffCode" style="float:left;padding:7px 15px 0 27px;">房间名称</label> 
+						<label for="new_staffCode" style="float:left;padding:7px 15px 0 27px;">订单名称</label> 
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="new_introduce" placeholder="房间名称" name="R_name" />
+							<input type="text" class="form-control" id="new_introduce" placeholder="订单名称" name="R_name" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label  class="col-sm-2 control-label">房间类型</label>
+						<label  class="col-sm-2 control-label">订单类型</label>
 						<div class="col-sm-10">
 						<select class="form-control" id="test" name="R_class_id">
 						<c:forEach items="${classes}" var="row">
@@ -158,15 +163,15 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label  style="float:left;padding:7px 15px 0 27px;">房间介绍</label>
+						<label  style="float:left;padding:7px 15px 0 27px;">订单介绍</label>
 						<div class="col-sm-10">
-							<input type="number" class="form-control" id="new_price" placeholder="房间介绍" name="R_introduce">
+							<input type="number" class="form-control" id="new_price" placeholder="订单介绍" name="R_introduce">
 						</div>
 					</div>
 					<div class="form-group">
-						<label  style="float:left;padding:7px 15px 0 27px;">房间价格</label>
+						<label  style="float:left;padding:7px 15px 0 27px;">订单价格</label>
 						<div class="col-sm-10">
-							<input type="number" class="form-control" id="new_price" placeholder="房间价格" name="R_price">
+							<input type="number" class="form-control" id="new_price" placeholder="订单价格" name="R_price">
 						</div>
 					</div>
 					
@@ -176,7 +181,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-				<button type="button" class="btn btn-primary" onclick="createHouse()">创建房间</button>
+				<button type="button" class="btn btn-primary" onclick="createHouse()">创建订单</button>
 			</div>
 		</div>
 	</div>
@@ -189,20 +194,20 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title" id="myModalLabel">新建房间信息</h4>
+				<h4 class="modal-title" id="myModalLabel">新建订单信息</h4>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal" id="new_room_book">
 					<div class="form-group">
 						<label  style="float:left;padding:7px 15px 0 27px;">预订时长</label>
 						<div class="col-sm-10">
-							<input type="number" class="form-control" id="new_Bprice" placeholder="房间价格" name="M_time">
+							<input type="number" class="form-control" id="new_Bprice" placeholder="订单价格" name="B_time">
 						</div>
 					</div>
 					<div class="form-group">
 						<label  class="col-sm-2 control-label">预订日期</label>
 						<div class="col-sm-10">
-							 <input type="date" class="form-control" id="new_data" name="M_time_order">
+							 <input type="date" class="form-control" id="new_Bdata" name="B_data">
 						</div>
 					</div>
 					<input type="hidden" id="new_book_id" name="R_id"/>
@@ -212,12 +217,12 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-				<button type="button" class="btn btn-primary" onclick="createNewBook()">创建房间</button>
+				<button type="button" class="btn btn-primary" onclick="createNewBook()">创建订单</button>
 			</div>
 		</div>
 	</div>
 </div>
-<!-- 修改房间模态框 -->
+<!-- 修改订单模态框 -->
 <div class="modal fade" id="staffEditDialog" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
@@ -226,58 +231,21 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title" id="myModalLabel">修改房间信息</h4>
+				<h4 class="modal-title" id="myModalLabel">修改订单信息</h4>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal" id="edit_staff_form">
 				
-				<div class="form-group">
-						<label for="new_staffName" class="col-sm-2 control-label">
-						   房间名称
-						</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="edit_name" placeholder="房间类型" name="R_class" />
-						</div>
-					</div>
+				
 					<div class="form-group">
-						<label for="new_staffClass" class="col-sm-2 control-label">
-						    房间类型
-						</label>
+						<label  style="float:left;padding:7px 15px 0 27px;">预定时长</label>
 						<div class="col-sm-10">
-						<select class="form-control"  name="R_class_id">
-						<c:forEach items="${classes}" var="row">
-							 <option id="edit_class${row.r_class_id}" value="${row.r_class_id}">${row.r_class_name}</option>
-						</c:forEach>
-						</select>
-							
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="new_staffCode" style="float:left;padding:7px 15px 0 27px;">房间介绍</label> 
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="edit_introduce" placeholder="房间介绍" name="R_introduce" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label style="float:left;padding:7px 15px 0 27px;">房间状态</label>
-						<div class="col-sm-10"> 
-							<label class="radio-inline">
-								  <input type="radio" id="edit_state0" name="R_state" value="0" checked> 可用
-							</label>
-							<label class="radio-inline">
-								  <input type="radio" id="edit_state1" name="R_state" value="1"> 不可用
-							</label>
-						</div>
-					</div>
-					<div class="form-group">
-						<label  style="float:left;padding:7px 15px 0 27px;">房间价格</label>
-						<div class="col-sm-10">
-							<input type="number" class="form-control" id="edit_price" placeholder="房间价格" name="R_price">
+							<input type="number" class="form-control" id="edit_time" placeholder="订单价格" name="M_time">
 						</div>
 					</div>
 					
 					
-					<input type="hidden" id="edit_room_id" name="R_id"/>
+					<input type="hidden" id="edit_order_id" name="M_id"/>
 				</form>
 			</div>
 			<div class="modal-footer">
@@ -301,7 +269,7 @@
 <script src="<%=basePath%>js/sb-admin-2.js"></script>
 <!-- 编写js代码 -->
 <script type="text/javascript">
-//清空新建房间窗口中的数据
+//清空新建订单窗口中的数据
 	function clearStaff() {
 	    $("#new_class").val("");
 	    $("#new_introduce").val("");
@@ -309,7 +277,7 @@
 	    $("#new_data").val("");
 	    $("#new_state0").prop("checked",true);
 	}
-	// 创建房间
+	// 创建订单
 	function createHouse() {
 		if($("#new_class").val()==""){
 			alert("类别必须输入!");
@@ -337,34 +305,31 @@
 	$.post("<%=basePath%>house/create.action",
 					$("#new_staff_form").serialize(),function(data){
 	        if(data =="OK"){
-	            alert("房间创建成功！");
+	            alert("订单创建成功！");
 	            window.location.reload();
 	        }else{
-	            alert("房间创建失败！");
+	            alert("订单创建失败！");
 	            window.location.reload();
 	        }
 	    });
 	}
-	// 通过id获取修改的房间信息
+	// 通过id获取修改的订单信息
 	function editStaff(id) {
 	    $.ajax({
 	        type:"get",
-	        url:"<%=basePath%>house/getRoomById.action",
+	        url:"<%=basePath%>order/getOrderById.action",
 	        data:{"id":id},
 	        success:function(data) {
-	            $("#edit_name").val(data.r_name);
-	            $("#edit_room_id").val(data.r_id);
-	            $("#edit_class"+data.r_class_id).prop("selected",true);
-	            $("#edit_introduce").val(data.r_introduce)
-	            $("#edit_price").val(data.r_price)
-	            $("#edit_state"+data.r_state).prop("checked",true);
+	            $("#edit_time").val(data.m_time);
+	            $("#edit_order_id").val(data.m_id);
+	           
 	        }
 	    });
 	}
-    // 执行修改房间操作
+    // 执行修改订单操作
 	function updateStaff() {
 		if($("#edit_name").val()==""){
-			alert("房间名必须输入!");
+			alert("订单名必须输入!");
 			$("#edit_name").focus();
 			return;
 		}
@@ -383,26 +348,27 @@
 			$("#edit_price").focus();
 			return;
 		}
-		$.post("<%=basePath%>house/update.action",$("#edit_staff_form").serialize(),function(data){
+		$.post("<%=basePath%>order/update.action",$("#edit_staff_form").serialize(),function(data){
 			if(data =="OK"){
-				alert("房间信息更新成功！");
+				alert("订单信息更新成功！");
 				window.location.reload();
 			}else{
-				alert("房间信息更新失败！");
+				alert("订单信息更新失败！");
 				window.location.reload();
 			}
 		});
 	}
-	// 删除房间
-	function deleteStaff(id) {
-	    if(confirm('确实要删除该房间吗?')) {
-	$.post("<%=basePath%>house/delete.action",{"id":id},
+	// 删除订单
+	function deleteStaff(m_id,r_id) {
+	    if(confirm('确实要删除该订单吗?')) {
+	$.post("<%=basePath%>order/delete.action",{"m_id":m_id,
+		"r_id":r_id},
 	function(data){
 	            if(data =="OK"){
-	                alert("房间删除成功！");
+	                alert("订单删除成功！");
 	                window.location.reload();
 	            }else{
-	                alert("房间删除失败！");
+	                alert("订单删除失败！");
 	                window.location.reload();
 	            }
 	        });
@@ -411,7 +377,7 @@
 	function newEdit(id) {
 	    $.ajax({
 	        type:"get",
-	        url:"<%=basePath%>house/getRoomById.action",
+	        url:"<%=basePath%>room/getRoomById.action",
 	        data:{"id":id},
 	        success:function(data) {
 	            if(data.r_state==0)
@@ -422,13 +388,13 @@
 	            		$('#roomNewDialog').modal('show')
 	            	}
 	            else{
-	            		alert("房间暂时不可用")
+	            		alert("订单暂时不可用")
 	            }
 	        }
 	    });
 	}
 	function createNewBook(){
-		$.post("<%=basePath%>order/newBook.action",$("#new_room_book").serialize(),function(data){
+		$.post("<%=basePath%>room/newBook.action",$("#new_room_book").serialize(),function(data){
 			if(data =="OK"){
 				alert("订单,账单信息更新成功！");
 				window.location.reload();

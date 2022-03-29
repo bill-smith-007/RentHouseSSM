@@ -11,7 +11,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>房间管理-BootCRM</title>
+	<title>用户管理-BootCRM</title>
 	<!-- 引入css样式文件 -->
 	<!-- Bootstrap Core CSS -->
 	<link href="<%=basePath%>css/bootstrap.min.css" rel="stylesheet" />
@@ -39,7 +39,7 @@
 	<div id="page-wrapper">
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">房间管理</h1>
+				<h1 class="page-header">用户管理</h1>
 			</div>
 			<!-- /.col-lg-12 -->
 		</div>
@@ -49,7 +49,7 @@
 				<form class="form-inline" method="get" 
 				      action="${pageContext.request.contextPath }/user/list.action">
 					<div class="form-group">
-						<label for="staffName">房间id</label> 
+						<label for="staffName">id</label> 
 						<input type="text" class="form-control" id="staffName" 
 						                   value="${U_id }" name="U_id" />
 					</div>
@@ -69,7 +69,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">房间信息列表</div>
+					<div class="panel-heading">用户信息列表</div>
 					<!-- /.panel-heading -->
 					<table class="table table-bordered table-striped">
 						<thead>
@@ -83,8 +83,8 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${page.rows}" var="row">
-								<tr>
-									<td>${row.u_id}</td>
+								<tr align="center">
+									<td >${row.u_id}</td>
 									<td>${row.u_name}</td>
 									<td>${row.u_rootStr}</td>
 									<td>${row.u_introduce}</td>
@@ -109,9 +109,9 @@
 			<!-- /.col-lg-12 -->
 		</div>
 	</div>
-	<!-- 房间列表查询部分  end-->
+	<!-- 用户列表查询部分  end-->
 </div>
-<!-- 创建房间模态框 -->
+<!-- 创建用户模态框 -->
 <div class="modal fade" id="newsStaffDialog" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
@@ -120,7 +120,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title" id="myModalLabel">新建房间信息</h4>
+				<h4 class="modal-title" id="myModalLabel">新建用户信息</h4>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal" id="new_staff_form">
@@ -161,7 +161,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-				<button type="button" class="btn btn-primary" onclick="createUser()">创建房间</button>
+				<button type="button" class="btn btn-primary" onclick="createUser()">创建用户</button>
 			</div>
 		</div>
 	</div>
@@ -174,14 +174,14 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title" id="myModalLabel">新建房间信息</h4>
+				<h4 class="modal-title" id="myModalLabel">新建用户信息</h4>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal" id="new_room_book">
 					<div class="form-group">
 						<label  style="float:left;padding:7px 15px 0 27px;">预订时长</label>
 						<div class="col-sm-10">
-							<input type="number" class="form-control" id="new_Bprice" placeholder="房间价格" name="B_time">
+							<input type="number" class="form-control" id="new_Bprice" placeholder="用户价格" name="B_time">
 						</div>
 					</div>
 					<div class="form-group">
@@ -197,12 +197,12 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-				<button type="button" class="btn btn-primary" onclick="createNewBook()">创建房间</button>
+				<button type="button" class="btn btn-primary" onclick="createNewBook()">创建用户</button>
 			</div>
 		</div>
 	</div>
 </div>
-<!-- 修改房间模态框 -->
+<!-- 修改用户模态框 -->
 <div class="modal fade" id="staffEditDialog" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
@@ -211,7 +211,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title" id="myModalLabel">修改房间信息</h4>
+				<h4 class="modal-title" id="myModalLabel">修改用户信息</h4>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal" id="edit_staff_form">
@@ -271,7 +271,7 @@
 <script src="<%=basePath%>js/sb-admin-2.js"></script>
 <!-- 编写js代码 -->
 <script type="text/javascript">
-//清空新建房间窗口中的数据
+//清空新建用户窗口中的数据
 	function clearStaff() {
 	    $("#new_class").val("");
 	    $("#new_introduce").val("");
@@ -279,7 +279,7 @@
 	    $("#new_data").val("");
 	    $("#new_state0").prop("checked",true);
 	}
-	// 创建房间
+	// 创建用户
 	function createUser() {
 		if($("#new_class").val()==""){
 			alert("类别必须输入!");
@@ -307,15 +307,15 @@
 	$.post("<%=basePath%>user/create.action",
 					$("#new_staff_form").serialize(),function(data){
 	        if(data =="OK"){
-	            alert("房间创建成功！");
+	            alert("用户创建成功！");
 	            window.location.reload();
 	        }else{
-	            alert("房间创建失败！");
+	            alert("用户创建失败！");
 	            window.location.reload();
 	        }
 	    });
 	}
-	// 通过id获取修改的房间信息
+	// 通过id获取修改的用户信息
 	function editStaff(id) {
 	    $.ajax({
 	        type:"get",
@@ -332,10 +332,10 @@
 	        }
 	    });
 	}
-    // 执行修改房间操作
+    // 执行修改用户操作
 	function updateStaff() {
 		if($("#edit_name").val()==""){
-			alert("房间名必须输入!");
+			alert("用户名必须输入!");
 			$("#edit_name").focus();
 			return;
 		}
@@ -356,24 +356,24 @@
 		}
 		$.post("<%=basePath%>user/update.action",$("#edit_staff_form").serialize(),function(data){
 			if(data =="OK"){
-				alert("房间信息更新成功！");
+				alert("用户信息更新成功！");
 				window.location.reload();
 			}else{
-				alert("房间信息更新失败！");
+				alert("用户信息更新失败！");
 				window.location.reload();
 			}
 		});
 	}
-	// 删除房间
+	// 删除用户
 	function deleteStaff(id) {
-	    if(confirm('确实要删除该房间吗?')) {
+	    if(confirm('确实要删除该用户吗?')) {
 	$.post("<%=basePath%>user/delete.action",{"id":id},
 	function(data){
 	            if(data =="OK"){
-	                alert("房间删除成功！");
+	                alert("用户删除成功！");
 	                window.location.reload();
 	            }else{
-	                alert("房间删除失败！");
+	                alert("用户删除失败！");
 	                window.location.reload();
 	            }
 	        });
@@ -393,7 +393,7 @@
 	            		$('#roomNewDialog').modal('show')
 	            	}
 	            else{
-	            		alert("房间暂时不可用")
+	            		alert("用户暂时不可用")
 	            }
 	        }
 	    });
